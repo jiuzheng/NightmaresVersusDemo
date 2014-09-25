@@ -6,8 +6,6 @@ namespace MultiPlayer
 {
 	public class NetworkGameManager : Photon.MonoBehaviour
 	{
-		
-		public GUISkin skin;
 		public Transform playerPrefab;
 		
 		public static Transform localPlayer;
@@ -67,10 +65,13 @@ namespace MultiPlayer
 			localPlayer = GO.transform;
 			
 		}
+
+		// ------------------------------------------------------------------------
+		//		Everything below needs to be refactored to Unity 4.6 new UI
+		// ------------------------------------------------------------------------
 		
 		void OnGUI()
 		{
-			GUI.skin = skin;
 			GameGUI();
 		}
 		
