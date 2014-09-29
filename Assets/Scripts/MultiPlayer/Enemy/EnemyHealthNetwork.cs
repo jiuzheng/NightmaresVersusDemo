@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 namespace MultiPlayer
 {
@@ -47,14 +48,13 @@ namespace MultiPlayer
         {
             // If the enemy is dead...
             if(isDead)
+			{
                 // ... no need to take damage so exit the function.
                 return;
+			}
 
             // Play the hurt sound effect.
             enemyAudio.Play ();
-
-            // Reduce the current health by the amount of damage sustained.
-            currentHealth -= amount;
             
             // Set the position of the particle system to where the hit was sustained.
             hitParticles.transform.position = hitPoint;
@@ -62,16 +62,27 @@ namespace MultiPlayer
             // And play the particles.
             hitParticles.Play();
 
-            // If the current health is less than or equal to zero...
-            if(currentHealth <= 0)
-            {
-                // ... the enemy is dead.
-                Death ();
-            }
+			if (PhotonNetwork.isMasterClient)
+			{
+				// Updates the current health
+				photonView.RPC("SetHealth", PhotonTargets.All, currentHealth - amount);
+
+				// If the current health is less than or equal to zero...
+				if(currentHealth <= 0)
+				{
+					// ... the enemy is dead.
+					photonView.RPC("Death", PhotonTargets.All);
+				}
+			}
         }
 
+		[RPC] void SetHealth (int newValue)
+		{
+			// Updates the current health
+			currentHealth = newValue;
+		}
 
-        void Death ()
+        [RPC] void Death ()
         {
             // The enemy is dead.
             isDead = true;
@@ -103,7 +114,16 @@ namespace MultiPlayer
 //            ScoreManager.score += scoreValue;
 
             // After 2 seconds destory the enemy.
-            Destroy (gameObject, 2f);
+			if (PhotonNetwork.isMasterClient)
+			{
+				StartCoroutine (DelayedDestrory (2.0f));
+			}
         }
+
+		IEnumerator DelayedDestrory (float delayTime)
+		{
+			yield return new WaitForSeconds (delayTime);
+			PhotonNetwork.Destroy(photonView);
+		}
     }
 }

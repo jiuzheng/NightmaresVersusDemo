@@ -91,6 +91,7 @@ namespace MultiPlayer
 				// If the player has lost all it's health and the death flag hasn't been set yet...
 				if(currentHealth <= 0 && !isDead)
 				{
+					Debug.Log ("Player " + photonView.owner.ID + " is Dead");
 					// ... it should die.
 					photonView.RPC("Death", PhotonTargets.All);
 				}
@@ -102,8 +103,11 @@ namespace MultiPlayer
 			// Updates the current health
 			currentHealth = newValue;
 
-			// Set the health bar's value to the current health.
-			healthSlider.value = currentHealth;
+			if (healthSlider != null) 
+			{
+				// Set the health bar's value to the current health.
+				healthSlider.value = currentHealth;
+			}
 		}
 
 

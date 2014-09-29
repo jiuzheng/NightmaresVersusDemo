@@ -18,7 +18,6 @@ namespace MultiPlayer
 			if (targetedPlayer == null || playerHealth == null || playerHealth.currentHealth <= 0)
 			{
 				FindNextTargetPlayer ();
-				Debug.Log ("FindNextTargetPlayer called again");
 			}
 		}
 

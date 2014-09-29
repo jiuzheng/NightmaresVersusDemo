@@ -96,24 +96,23 @@ namespace MultiPlayer
             // Perform the raycast against gameobjects on the shootable layer and if it hits something...
             if(Physics.Raycast (shootRay, out shootHit, range, shootableMask))
             {
+                // Try and find an EnemyHealth script on the gameobject hit.
+                EnemyHealthNetwork enemyHealth = shootHit.collider.GetComponent <EnemyHealthNetwork> ();
 
-				// TO DO: Implement Enemy Health Networking code
+                // If the EnemyHealth component exist...
+                if(enemyHealth != null)
+                {
+                    // ... the enemy should take damage.
+                    enemyHealth.TakeDamage (damagePerShot, shootHit.point);
+                }
 
-//                // Try and find an EnemyHealth script on the gameobject hit.
-//                EnemyHealth enemyHealth = shootHit.collider.GetComponent <EnemyHealth> ();
-//
-//                // If the EnemyHealth component exist...
-//                if(enemyHealth != null)
-//                {
-//                    // ... the enemy should take damage.
-//                    enemyHealth.TakeDamage (damagePerShot, shootHit.point);
-//                }
+                // TO DO: Should we include Player-vs-Player mode?
+                PlayerHealthNetwork playerHealth = shootHit.collider.GetComponent <PlayerHealthNetwork> ();
 
-				PlayerHealthNetwork playerHealth = shootHit.collider.GetComponent <PlayerHealthNetwork> ();
-				if (playerHealth != null)
-				{
-					playerHealth.TakeDamage (damagePerShot);
-				}
+                if (playerHealth != null)
+                {
+                    playerHealth.TakeDamage (damagePerShot);
+                }
 
                 // Set the second position of the line renderer to the point the raycast hit.
                 gunLine.SetPosition (1, shootHit.point);
