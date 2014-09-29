@@ -9,37 +9,37 @@ namespace MultiPlayer
 		public Transform playerPrefab;
 		
 		public static Transform localPlayer;
-		public static List<Transform> players = new List<Transform>();
-		
-		public static Transform GetClosestPlayer(Vector3 fromPos)
+		public static Dictionary <int, Transform> playersDict = new Dictionary <int, Transform> ();
+
+		// The PhotonPlayer actorIDs are the same across all game clients
+		public static int GetClosestPlayerID(Vector3 fromPos)
 		{
-			
-			Transform close = null;
+			int playerID = -1;
 			float dist = -1;
-			foreach (Transform tra in players)
+			foreach (KeyValuePair<int, Transform> dictEntry in playersDict)
 			{
-				if (tra == null)
+				if (dictEntry.Value == null)
 				{
 					continue;
 				}
-				float thisD = Vector3.Distance(tra.position, fromPos);
+				float thisD = Vector3.Distance(dictEntry.Value.position, fromPos);
 				if (dist == -1 || thisD < dist)
 				{
 					dist = thisD;
-					close = tra;
+					playerID = dictEntry.Key;
 				}
 			}
-			return close;
+			return playerID;
 		}
 		
 		
-		public static void AddPlayer(Transform tra)
+		public static void AddPlayer (int photonPlayerID, Transform trans)
 		{
-			players.Add(tra);
+			playersDict.Add(photonPlayerID, trans);
 		}
-		public static void RemovePlayer(Transform tra)
+		public static void RemovePlayer (int photonPlayerID)
 		{
-			players.Remove(tra);
+			playersDict.Remove(photonPlayerID);
 		}
 		
 		void Awake()

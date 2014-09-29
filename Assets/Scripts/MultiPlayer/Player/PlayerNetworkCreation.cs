@@ -5,6 +5,7 @@ namespace MultiPlayer
 {
 	public class PlayerNetworkCreation : Photon.MonoBehaviour 
 	{
+		private int photonPlayerID;
 		private TextMesh tMesh;
 		private Vector3 textMeshDirection = new Vector3(0, 0, -10);
 
@@ -35,13 +36,15 @@ namespace MultiPlayer
 		}
 		
 		void OnPhotonInstantiate(PhotonMessageInfo info)
-		{       
-			NetworkGameManager.AddPlayer(transform);
+		{
+			photonPlayerID = info.sender.ID;
+			NetworkGameManager.AddPlayer(info.sender.ID, transform);
 		}
+
 		void OnDestroy()
 		{	
 			Debug.Log ("Player is destroyed");
-			NetworkGameManager.RemovePlayer(transform);
+			NetworkGameManager.RemovePlayer(photonPlayerID);
 		}
 	}
 }

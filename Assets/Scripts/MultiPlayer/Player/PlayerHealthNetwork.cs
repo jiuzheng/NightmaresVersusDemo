@@ -50,6 +50,12 @@ namespace MultiPlayer
 
         void Update ()
         {
+			// Don't show damage flash when it's not me
+			if (!photonView.isMine)
+			{
+				return;
+			}
+
             // If the player has just been damaged...
             if(damaged)
             {
