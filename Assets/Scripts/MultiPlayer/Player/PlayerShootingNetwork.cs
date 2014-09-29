@@ -109,6 +109,12 @@ namespace MultiPlayer
 //                    enemyHealth.TakeDamage (damagePerShot, shootHit.point);
 //                }
 
+				PlayerHealthNetwork playerHealth = shootHit.collider.GetComponent <PlayerHealthNetwork> ();
+				if (playerHealth != null)
+				{
+					playerHealth.TakeDamage (damagePerShot);
+				}
+
                 // Set the second position of the line renderer to the point the raycast hit.
                 gunLine.SetPosition (1, shootHit.point);
             }

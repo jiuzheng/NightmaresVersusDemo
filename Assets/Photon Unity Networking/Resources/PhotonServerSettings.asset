@@ -28,4 +28,6 @@ MonoBehaviour:
   - PunPickupSimple
   - PunRespawn
   - RequestForPickupTimes
+  - Death
+  - SetHealth
   DisableAutoOpenWizard: 0

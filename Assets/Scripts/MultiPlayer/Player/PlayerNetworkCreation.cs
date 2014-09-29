@@ -17,7 +17,7 @@ namespace MultiPlayer
 		{		    	
 			if ( photonView.isMine)
 			{
-				tMesh.gameObject.active = false;
+				tMesh.gameObject.SetActive(false);
 			}
 			else
 			{

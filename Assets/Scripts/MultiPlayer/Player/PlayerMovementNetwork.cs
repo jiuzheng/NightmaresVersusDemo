@@ -59,7 +59,7 @@ namespace MultiPlayer
 				if (syncedPosition == Vector3.zero) return;
 
 				//Update remote player (smooth this, this looks good, at the cost of some accuracy)
-				if (true || Vector3.Distance(syncedPosition, transform.position) < 4)
+				if (Vector3.Distance(syncedPosition, transform.position) < 4)
 				{
 					playerRigidbody.position = Vector3.Lerp(transform.position, syncedPosition, Time.deltaTime * 10);
 					playerRigidbody.rotation = Quaternion.Lerp(transform.rotation, syncedRotation, Time.deltaTime * 10);
