@@ -103,7 +103,7 @@ namespace MultiPlayer
                 if(enemyHealth != null)
                 {
                     // ... the enemy should take damage.
-                    enemyHealth.TakeDamage (damagePerShot, shootHit.point);
+                    enemyHealth.TakeDamage (damagePerShot, shootHit.point, photonView.owner.ID);
                 }
 
                 // TO DO: Should we include Player-vs-Player mode?

@@ -8,11 +8,13 @@ namespace MultiPlayer
 		private int photonPlayerID;
 		private TextMesh tMesh;
 		private Vector3 textMeshDirection = new Vector3(0, 0, -10);
+		private AbstractScoreManager scoreManager;  
 
 		void Awake()
 		{
 			Debug.Log("SPAWN PLAYER");
 			tMesh = gameObject.GetComponentInChildren<TextMesh>();
+			scoreManager = GameObject.Find ("ScoreText").GetComponent <AbstractScoreManager> ();
 		}
 
 		void Start ()   
@@ -41,7 +43,8 @@ namespace MultiPlayer
 		void OnPhotonInstantiate(PhotonMessageInfo info)
 		{
 			photonPlayerID = info.sender.ID;
-			NetworkGameManager.AddPlayer(info.sender.ID, transform);
+			NetworkGameManager.AddPlayer(photonPlayerID, transform);
+			scoreManager.AddPlayer(photonPlayerID);
 		}
 
 		// Remove a player from static Dictionary upon leave

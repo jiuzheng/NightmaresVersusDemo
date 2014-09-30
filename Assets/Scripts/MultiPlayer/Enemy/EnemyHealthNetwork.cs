@@ -16,6 +16,7 @@ namespace MultiPlayer
         AudioSource enemyAudio;                     // Reference to the audio source.
         ParticleSystem hitParticles;                // Reference to the particle system that plays when the enemy is damaged.
         CapsuleCollider capsuleCollider;            // Reference to the capsule collider.
+		AbstractScoreManager scoreManager;          // Reference to the score manager. Different between Scenes
         bool isDead;                                // Whether the enemy is dead.
         bool isSinking;                             // Whether the enemy has started sinking through the floor.
 
@@ -27,6 +28,7 @@ namespace MultiPlayer
             enemyAudio = GetComponent <AudioSource> ();
             hitParticles = GetComponentInChildren <ParticleSystem> ();
             capsuleCollider = GetComponent <CapsuleCollider> ();
+			scoreManager = GameObject.Find ("ScoreText").GetComponent <AbstractScoreManager> ();
 
             // Setting the current health when the enemy first spawns.
             currentHealth = startingHealth;
@@ -44,7 +46,7 @@ namespace MultiPlayer
         }
 
 
-        public void TakeDamage (int amount, Vector3 hitPoint)
+        public void TakeDamage (int amount, Vector3 hitPoint, int fromPlayerID)
         {
             // If the enemy is dead...
             if(isDead)
@@ -72,6 +74,9 @@ namespace MultiPlayer
 				{
 					// ... the enemy is dead.
 					photonView.RPC("Death", PhotonTargets.All);
+
+					// Increase the score by the enemy's score value, to the correct player.
+					scoreManager.AddScore (scoreValue, fromPlayerID);
 				}
 			}
         }
@@ -109,9 +114,6 @@ namespace MultiPlayer
 
             // The enemy should no sink.
             isSinking = true;
-
-            // Increase the score by the enemy's score value.
-//            ScoreManager.score += scoreValue;
 
             // After 2 seconds destory the enemy.
 			if (PhotonNetwork.isMasterClient)

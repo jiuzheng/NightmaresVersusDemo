@@ -47,10 +47,6 @@ namespace MultiPlayer
 				{
 					photonView.RPC ("setTarget", PhotonTargets.All, closestPlayerID);
 				}
-				else
-				{
-					Debug.Log ("Player ID -1 returned");
-				}
 			}
 		}
 
