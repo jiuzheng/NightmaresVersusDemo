@@ -57,7 +57,7 @@ public class MainMenu : Photon.MonoBehaviour
         }
 
         screenWidth = Mathf.Min(Screen.width, 960);
-        GUI.DrawTexture(new Rect(Screen.width - screenWidth, 0, screenWidth, 80), mainLogo, ScaleMode.ScaleToFit);
+        GUI.DrawTexture(new Rect(0, 0, screenWidth, 160), mainLogo, ScaleMode.ScaleAndCrop);
         
         GUI.skin = skin;
         if (!PhotonNetwork.connected)
