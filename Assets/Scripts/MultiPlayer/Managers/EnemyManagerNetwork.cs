@@ -26,8 +26,9 @@ namespace MultiPlayer
 				return;
 			}
 
-            // If the player has no health left...
-            if(false && playerHealth.currentHealth <= 0f)
+			// TO DO: Maybe start spawning when our lightweight server signals game start?
+            // If there is no player left in the room
+            if(NetworkGameManager.playersDict.Count < 1)
             {
                 // ... exit the function.
                 return;

@@ -25,7 +25,7 @@ namespace MultiPlayer
 		void LateUpdate ()
         {			
 			// If the enemy and the player have health left...
-			if(/* enemyHealth.currentHealth > 0 && */ enemyTarget.TargetedPlayer != null && enemyTarget.PlayerHealth.currentHealth > 0)
+			if(enemyHealth.currentHealth > 0 && enemyTarget.TargetedPlayer != null && enemyTarget.PlayerHealth.currentHealth > 0)
             {
                 // ... set the destination of the nav mesh agent to the player.
 				nav.enabled = true;
