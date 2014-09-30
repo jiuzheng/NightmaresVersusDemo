@@ -10,20 +10,9 @@ namespace MultiPlayer
 		protected Dictionary <int, int> scoreDict;    // Key: photon player actorID. Value: corresponding score.
 		protected int localPlayerID;                  // Local player's Photon player actorID.
 
-        void Awake ()
-        {
-            // Reset the scoreDict.
-			scoreDict = new Dictionary<int, int> ();
+		void Awake () {}
 
-			// Photon player actorID.
-			localPlayerID = PhotonNetwork.player.ID;
-        }
-
-
-        void Update ()
-        {
-
-        }
+		void Update () {}
 
 		// Sync the score dictionary over network
 		[RPC] protected void updateScoreDict (Dictionary <int, int> newDict)

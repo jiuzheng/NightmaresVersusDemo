@@ -25,12 +25,24 @@ namespace MultiPlayer
         void Update ()
         {
 			text.text = "Score: " + scoreDict[localPlayerID];
+			string s = "";
+			foreach (KeyValuePair <int, int> entry in scoreDict)
+			{
+				s += " Player " + entry.Key + ": " + entry.Value;
+			}
+
+			text.text = s;
         }
 
 		// Add Player should set up references on the new player's health bar, text label etc.
 		override public void AddPlayer (int photonPlayerID)
 		{
 			scoreDict[photonPlayerID] = 0;
+
+			if (PhotonNetwork.isMasterClient)
+			{	
+				photonView.RPC ("updateScoreDict", PhotonTargets.Others, scoreDict);
+			}
 		}
 
 		// Should be an RPC call made only by the master client. Updates the score dict
