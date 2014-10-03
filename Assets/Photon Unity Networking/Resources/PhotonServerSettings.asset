@@ -33,4 +33,6 @@ MonoBehaviour:
   - setTarget
   - updateScoreDict
   - ResetPlayer
+  - revivePlayerWithDelay
+  - processGameOver
   DisableAutoOpenWizard: 0

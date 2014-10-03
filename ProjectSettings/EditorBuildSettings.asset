@@ -5,15 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Level 01.unity
   - enabled: 1
     path: Assets/Scenes/0_Preloader.unity
   - enabled: 1
     path: Assets/Scenes/1_BeginScene.unity
   - enabled: 1
-    path: Assets/Scenes/PvPScene.unity
+    path: Assets/Scenes/PvPTimeAttack.unity
   - enabled: 1
     path: Assets/Scenes/3_EndScene.unity
   - enabled: 1
     path: Assets/Scenes/SinglePlayerScene.unity
+  - enabled: 1
+    path: Assets/Scenes/PvPScene.unity

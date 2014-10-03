@@ -18,6 +18,7 @@ namespace MultiPlayer
 
         Animator anim;                                              // Reference to the Animator component.
         AudioSource playerAudio;                                    // Reference to the AudioSource component.
+		AbstractGameOverManager gameOverManager;    				// Reference to the Game Over manager. Different between Scenes
         PlayerMovementNetwork playerMovement;                       // Reference to the player's movement.
         PlayerShootingNetwork playerShooting;                       // Reference to the PlayerShooting script.
         bool isDead;                                                // Whether the player is dead.
@@ -31,6 +32,7 @@ namespace MultiPlayer
             playerAudio = GetComponent <AudioSource> ();
             playerMovement = GetComponent <PlayerMovementNetwork> ();
             playerShooting = GetComponentInChildren <PlayerShootingNetwork> ();
+			gameOverManager = GameObject.Find("HUDCanvas").GetComponent <AbstractGameOverManager> ();
 
             // Set the initial health of the player.
             currentHealth = startingHealth;
@@ -99,12 +101,12 @@ namespace MultiPlayer
 			}
         }
 
-		public IEnumerator ReviveAfterSeconds (int seconds)
+		public IEnumerator ReviveAfterSeconds (float seconds)
 		{
 			if (PhotonNetwork.isMasterClient)
 			{
 				yield return new WaitForSeconds(seconds);
-				ResetPlayer();
+				photonView.RPC ("ResetPlayer", PhotonTargets.All);
 			}
 		}
 
@@ -138,6 +140,8 @@ namespace MultiPlayer
             // Turn off the movement and shooting scripts.
             playerMovement.enabled = false;
             playerShooting.enabled = false;
+
+			gameOverManager.NotifyPlayerDead (photonView.owner.ID);
         }
 
 		[RPC] void ResetPlayer ()
