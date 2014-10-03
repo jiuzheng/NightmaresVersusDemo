@@ -3059,7 +3059,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78aa03e3608c64f569fe46f4b401bf00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tournamentTimeLimit: 20
+  tournamentTimeLimit: 60
   reviveDelay: 6
 --- !u!1 &1203276582
 GameObject:

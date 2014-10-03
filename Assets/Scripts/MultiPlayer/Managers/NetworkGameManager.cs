@@ -112,11 +112,11 @@ namespace MultiPlayer
 		void GameGUI()
 		{
 			GUILayout.Space(32);
-			if (GUILayout.Button("Leave"))
-			{
-				PhotonNetwork.LeaveRoom();
-				Application.LoadLevel(Application.loadedLevel + 1);
-			}
+//			if (GUILayout.Button("Leave"))
+//			{
+//				PhotonNetwork.LeaveRoom();
+//				Application.LoadLevel(Application.loadedLevel + 1);
+//			}
 			
 			if (showDebug)
 			{

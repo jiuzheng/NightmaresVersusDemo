@@ -58,7 +58,7 @@ namespace MultiPlayer
 		void updateScoreLabels ()
 		{
 			// Updates local player's score text label
-			myScoretext.text = "Your Score: " + scoreDict [localPlayerID];
+			myScoretext.text = "Score: " + scoreDict [localPlayerID];
 
 			string otherPlayerScoreString = "";
 			foreach (PhotonPlayer player in PhotonNetwork.otherPlayers)
