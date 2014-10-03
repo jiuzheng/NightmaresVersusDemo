@@ -7,7 +7,8 @@ namespace MultiPlayer
 {
     public class PvPScoreManagerNetwork : AbstractScoreManager
     {
-		Text text;
+		public Text myScoretext;
+		public Text otherPlayerScoreText;
 
         void Awake ()
         {
@@ -16,22 +17,12 @@ namespace MultiPlayer
 			
 			// Photon player actorID.
 			localPlayerID = PhotonNetwork.player.ID;
-
-			// Set the reference.
-			text = GetComponent <Text> ();
         }
 
 
         void Update ()
         {
-			text.text = "Score: " + scoreDict[localPlayerID];
-			string s = "";
-			foreach (KeyValuePair <int, int> entry in scoreDict)
-			{
-				s += " Player " + entry.Key + ": " + entry.Value;
-			}
 
-			text.text = s;
         }
 
 		// Add Player should set up references on the new player's health bar, text label etc.
@@ -43,6 +34,8 @@ namespace MultiPlayer
 			{	
 				photonView.RPC ("updateScoreDict", PhotonTargets.Others, scoreDict);
 			}
+
+			updateScoreLabels ();
 		}
 
 		// Should be an RPC call made only by the master client. Updates the score dict
@@ -54,6 +47,21 @@ namespace MultiPlayer
 
 				photonView.RPC ("updateScoreDict", PhotonTargets.Others, scoreDict);
 			}
+
+			updateScoreLabels ();
+		}
+
+		void updateScoreLabels ()
+		{
+			myScoretext.text = "Your Score: " + scoreDict [PhotonNetwork.player.ID];
+
+			string otherPlayerScoreString = "";
+			foreach (PhotonPlayer player in PhotonNetwork.otherPlayers)
+			{
+				otherPlayerScoreString += player.name + ": " + scoreDict[player.ID];
+			}
+			
+			otherPlayerScoreText.text = otherPlayerScoreString;
 		}
     }
 }
