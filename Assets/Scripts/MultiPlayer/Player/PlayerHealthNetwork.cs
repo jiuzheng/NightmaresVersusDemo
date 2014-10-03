@@ -10,6 +10,7 @@ namespace MultiPlayer
         public int currentHealth;                                   // The current health the player has.
         public Slider healthSlider;                                 // Reference to the UI's health bar.
         public Image damageImage;                                   // Reference to an image to flash on the screen on being hurt.
+		public AudioClip hurtClip;                                  // The audio clip to play when the player is hurt.
         public AudioClip deathClip;                                 // The audio clip to play when the player dies.
         public float flashSpeed = 5f;                               // The speed the damageImage will fade at.
         public Color flashColour = new Color(1f, 0f, 0f, 0.1f);     // The colour the damageImage is set to, to flash.
@@ -98,6 +99,15 @@ namespace MultiPlayer
 			}
         }
 
+		public IEnumerator ReviveAfterSeconds (int seconds)
+		{
+			if (PhotonNetwork.isMasterClient)
+			{
+				yield return new WaitForSeconds(seconds);
+				ResetPlayer();
+			}
+		}
+
 		[RPC] void SetHealth (int newValue)
 		{
 			// Updates the current health
@@ -110,10 +120,9 @@ namespace MultiPlayer
 			}
 		}
 
-
         [RPC] void Death ()
         {
-            // Set the death flag so this function won't be called again.
+            // Set the death flag so this function won't be called while the player is dead.
             isDead = true;
 
             // Turn off any remaining shooting effects.
@@ -129,6 +138,24 @@ namespace MultiPlayer
             // Turn off the movement and shooting scripts.
             playerMovement.enabled = false;
             playerShooting.enabled = false;
-        }		
+        }
+
+		[RPC] void ResetPlayer ()
+		{
+			// Refill health
+			SetHealth (startingHealth);
+
+			isDead = false;
+
+			// Tell the animator that the player is revived.
+			anim.SetTrigger ("Revive");
+
+			// Set the audiosource back to the hurt sound
+			playerAudio.clip = hurtClip;
+
+			// Turn on the movement and shooting scripts.
+			playerMovement.enabled = true;
+			playerShooting.enabled = true;
+		}
     }
 }

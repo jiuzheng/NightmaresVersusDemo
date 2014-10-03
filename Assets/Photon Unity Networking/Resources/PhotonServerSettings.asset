@@ -32,4 +32,5 @@ MonoBehaviour:
   - SetHealth
   - setTarget
   - updateScoreDict
+  - ResetPlayer
   DisableAutoOpenWizard: 0
